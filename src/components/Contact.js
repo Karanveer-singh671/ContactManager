@@ -5,7 +5,7 @@ import './contact.css';
 // class components send props through this.props.__, where __ is the property in the app.js associated with the component
 class Contact extends Component {
 	render() {
-		const { name, email, phone } = this.props;
+		const { name, email, phone } = this.props.contact;
 		return (
 			<div className="card card-body mb-3">
 				<h4>{name}</h4>
@@ -19,8 +19,6 @@ class Contact extends Component {
 }
 
 Contact.PropTypes = {
-	name: PropTypes.string.isRequired,
-	email: PropTypes.string.isRequired,
-	phone: PropTypes.string.isRequired
+	contact: PropTypes.object.isRequired
 };
 export default Contact;
