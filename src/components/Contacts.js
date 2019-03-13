@@ -4,15 +4,6 @@ import { Consumer } from '../context';
 // 2 ways to add state
 // 1 is constructor after component mounts
 class Contacts extends Component {
-	deleteContact = (id) => {
-		const { contacts } = this.state;
-
-		const newContacts = contacts.filter((contact) => contact.id !== id);
-
-		this.setState({
-			contacts: newContacts
-		});
-	};
 	render() {
 		return (
 			// see context.js for what value holds in provider
@@ -21,14 +12,7 @@ class Contacts extends Component {
 					const { contacts } = value;
 					return (
 						<React.Fragment>
-							{contacts.map((contact) => (
-								<Contact
-									key={contact.id}
-									contact={contact}
-									deleteClickHandler={this.deleteContact.bind(this, contact.id)}
-								/>
-								//  name={contact.name} email={contact.email} phone={contact.phone} />
-							))}
+							{contacts.map((contact) => <Contact key={contact.id} contact={contact} />)}
 						</React.Fragment>
 					);
 				}}
