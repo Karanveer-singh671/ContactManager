@@ -26,12 +26,17 @@ export default class Contacts extends Component {
 		const { contacts } = this.state;
 		// pull contacts out of state then loop through using map
 		return (
-			<div>
-				{contacts.map((contact) => (
-					<Contact key={contact.id} contact={contact} />
-					//  name={contact.name} email={contact.email} phone={contact.phone} />
-				))}
-			</div>
+			{
+				/* if don't want div inside and just pseudo element not rendered by DOM use react.fragment*/
+			},
+			(
+				<React.Fragment>
+					{contacts.map((contact) => (
+						<Contact key={contact.id} contact={contact} />
+						//  name={contact.name} email={contact.email} phone={contact.phone} />
+					))}
+				</React.Fragment>
+			)
 		);
 	}
 }
