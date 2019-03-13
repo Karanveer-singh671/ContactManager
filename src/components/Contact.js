@@ -13,6 +13,10 @@ class Contact extends Component {
 		this.setState({ showContactInfo: !this.state.showContactInfo });
 	};
 
+	onDeleteClick = () => {
+		this.props.deleteClickHandler();
+	};
+
 	render() {
 		const { name, email, phone } = this.props.contact;
 		const { showContactInfo } = this.state;
@@ -20,7 +24,12 @@ class Contact extends Component {
 			<div className="card card-body mb-3">
 				<h4>
 					{/* if want to add custom param to event bind with this and name of param */}
-					{name} <i onClick={this.onShowClick} className="fas fa-sort-down" />
+					{name} <i onClick={this.onShowClick} className="fas fa-sort-down" style={{ cursor: 'pointer' }} />
+					<i
+						className="fas fa-times"
+						style={{ cursor: 'pointer', float: 'right', color: 'red' }}
+						onClick={this.onDeleteClick}
+					/>
 				</h4>
 				{showContactInfo ? (
 					<ul className="list-group">
@@ -34,6 +43,7 @@ class Contact extends Component {
 }
 
 Contact.PropTypes = {
-	contact: PropTypes.object.isRequired
+	contact: PropTypes.object.isRequired,
+	deleteClickHandler: PropTypes.func.isRequired
 };
 export default Contact;
