@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Contact from './Contact';
-import { Consumer } from '../context';
+import { Consumer } from '../../context';
 // 2 ways to add state
 // 1 is constructor after component mounts
 class Contacts extends Component {
