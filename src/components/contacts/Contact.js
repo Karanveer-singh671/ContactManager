@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './contact.css';
-import Consumer from '../context';
+import Consumer from '../../context';
 
 // class components send props through this.props.__, where __ is the property in the app.js associated with the component
 // can use this if lifecycle method or part of component but when create own method need to bind or could add constructor but easiest way is to turn to arrow function and this keyword available
