@@ -8,12 +8,30 @@ export default class AddContact extends Component {
 	state = {
 		name: '',
 		email: '',
-		phone: ''
+		phone: '',
+		errors: {}
 	};
 
 	onSubmit = (dispatch, e) => {
 		e.preventDefault();
 		const { name, email, phone } = this.state;
+
+		// error check
+		if (name === '') {
+			// error object with key name and val string
+			this.setState({ errors: { name: 'Name is Required' } });
+			return;
+		}
+		if (email === '') {
+			// error object with key email and val string
+			this.setState({ errors: { email: 'email is Required' } });
+			return;
+		}
+		if (phone === '') {
+			// error object with key name and val string
+			this.setState({ errors: { phone: 'Phone is Required' } });
+			return;
+		}
 		const newContact = {
 			id: uuid(),
 			name,
@@ -21,11 +39,13 @@ export default class AddContact extends Component {
 			phone
 		};
 		dispatch({ type: 'ADD_CONTACT', payload: newContact });
+
 		// clear state
 		this.setState({
 			name: '',
 			email: '',
-			phone: ''
+			phone: '',
+			errors: {}
 		});
 	};
 
@@ -50,6 +70,7 @@ export default class AddContact extends Component {
 										placeholder="Enter Name"
 										value={name}
 										onChange={this.onChange}
+										error={errors.name}
 									/>
 
 									<TextInputGroup
@@ -59,6 +80,8 @@ export default class AddContact extends Component {
 										placeholder="Enter Email"
 										value={email}
 										onChange={this.onChange}
+										// error will not display if none add so can render if so
+										error={errors.email}
 									/>
 
 									<TextInputGroup
@@ -67,6 +90,7 @@ export default class AddContact extends Component {
 										placeholder="Enter Phone"
 										value={phone}
 										onChange={this.onChange}
+										error={errors.phone}
 									/>
 
 									<input type="submit" value="Add Contact" className="btn btn-light btn-block" />
