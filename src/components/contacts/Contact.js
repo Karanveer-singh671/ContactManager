@@ -16,10 +16,25 @@ class Contact extends Component {
 	// };
 
 	// if used backend then it would delete data from db with this request
-	onDeleteClick = (id, dispatch) => {
-		axios
-			.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
-			.then((res) => dispatch({ type: 'DELETE_CONTACT', payload: id }));
+	// onDeleteClick = (id, dispatch) => {
+	// 	axios
+	// 		.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
+	// 		.then((res) => dispatch({ type: 'DELETE_CONTACT', payload: id }));
+	// };
+
+	// Refactor
+	// trying to delete something not in DB since no backend so use try catch
+
+	onDeleteClick = async (id, dispatch) => {
+		try {
+			// don't need to store in res since not getting anything back to use (only empty obj)
+			await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`);
+
+			dispatch({ type: 'DELETE_CONTACT', payload: id });
+		} catch (e) {
+			// wouldn't do this IRL but need to delete from DOM here still even if in catch
+			dispatch({ type: 'DELETE_CONTACT', payload: id });
+		}
 	};
 
 	render() {

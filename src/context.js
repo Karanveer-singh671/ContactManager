@@ -41,8 +41,16 @@ export class Provider extends Component {
 		dispatch: (action) => this.setState((state) => reducer(state, action))
 	};
 
-	componentDidMount() {
-		axios.get('https://jsonplaceholder.typicode.com/users').then((res) => this.setState({ contact: res.data }));
+	// axios get request with jsonplaceholder
+	// componentDidMount() {
+	// 	axios.get('https://jsonplaceholder.typicode.com/users').then((res) => this.setState({ contact: res.data }));
+	// }
+
+	// Refactor using async await to look more sync
+	async componentDidMount() {
+		const res = await axios.get('https://jsonplaceholder.typicode.com/users');
+
+		this.setState({ contact: res.data });
 	}
 
 	render() {
