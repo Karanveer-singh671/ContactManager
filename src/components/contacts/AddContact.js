@@ -47,6 +47,8 @@ export default class AddContact extends Component {
 			phone: '',
 			errors: {}
 		});
+
+		this.props.history.push('/');
 	};
 
 	// e is object event passed
