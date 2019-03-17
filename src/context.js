@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 const Context = React.createContext();
 // global state using context api
 // action object with type, reducer for actions
@@ -39,6 +40,10 @@ export class Provider extends Component {
 		// to call an action use dispatch
 		dispatch: (action) => this.setState((state) => reducer(state, action))
 	};
+
+	componentDidMount() {
+		axios.get('https://jsonplaceholder.typicode.com/users').then((res) => this.setState({ contact: res.data }));
+	}
 
 	render() {
 		// pass anything that want to be available in
