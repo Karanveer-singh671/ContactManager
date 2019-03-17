@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 class Test extends Component {
+	// State is similar to props, but it is private and fully controlled by the component.
 	state = {
 		test: 'test'
 	};

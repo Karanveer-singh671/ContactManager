@@ -3,7 +3,8 @@ import './App.css';
 // stores routes, switch for not found page
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Contact from './components/contacts/Contacts';
-import AddContact from './components/contacts/addContact';
+import AddContact from './components/contacts/AddContact';
+import EditContact from './components/contacts/EditContact';
 import Header from './components/layout/Header';
 import About from './components/layout/About';
 import 'bootstrap/dist/css/bootstrap.min.css';
