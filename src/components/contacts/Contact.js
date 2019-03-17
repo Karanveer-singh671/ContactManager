@@ -1,92 +1,77 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import './contact.css';
-import Consumer from '../../context';
+import { Consumer } from '../../context';
 import axios from 'axios';
 
-// class components send props through this.props.__, where __ is the property in the app.js associated with the component
-// can use this if lifecycle method or part of component but when create own method need to bind or could add constructor but easiest way is to turn to arrow function and this keyword available
 class Contact extends Component {
-	state = {
-		showContactInfo: true
-	};
-	// mutate state use setState
-	// onShowClick = (e) => {
-	// 	this.setState({ showContactInfo: !this.state.showContactInfo });
-	// };
+  state = {
+    showContactInfo: false
+  };
 
-	// if used backend then it would delete data from db with this request
-	// onDeleteClick = (id, dispatch) => {
-	// 	axios
-	// 		.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
-	// 		.then((res) => dispatch({ type: 'DELETE_CONTACT', payload: id }));
-	// };
+  onDeleteClick = async (id, dispatch) => {
+    try {
+      await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`);
+      dispatch({ type: 'DELETE_CONTACT', payload: id });
+    } catch (e) {
+      dispatch({ type: 'DELETE_CONTACT', payload: id });
+    }
+  };
 
-	// Refactor
-	// trying to delete something not in DB since no backend so use try catch
+  render() {
+    const { id, name, email, phone } = this.props.contact;
+    const { showContactInfo } = this.state;
 
-	onDeleteClick = async (id, dispatch) => {
-		try {
-			// don't need to store in res since not getting anything back to use (only empty obj)
-			await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`);
-
-			dispatch({ type: 'DELETE_CONTACT', payload: id });
-		} catch (e) {
-			// wouldn't do this IRL but need to delete from DOM here still even if in catch
-			dispatch({ type: 'DELETE_CONTACT', payload: id });
-		}
-	};
-
-	render() {
-		const { id, name, email, phone } = this.props.contact;
-		const { showContactInfo } = this.state;
-		return (
-			<Consumer>
-				{(value) => {
-					const { dispatch } = value;
-					return (
-						<div className="card card-body mb-3">
-							<h4>
-								{/* if want to add custom param to event bind with this and name of param */}
-								{name}{' '}
-								<i
-									onClick={this.onShowClick}
-									className="fas fa-sort-down"
-									style={{ cursor: 'pointer' }}
-								/>
-								<i
-									className="fas fa-times"
-									style={{ cursor: 'pointer', float: 'right', color: 'red' }}
-									onClick={this.onDeleteClick.bind(this, id, dispatch)}
-								/>
-								<Link to={`contact/edit/${id}`}>
-									<i
-										className="fas fa-pencil-alt"
-										style={{
-											cursor: 'pointer',
-											float: 'right',
-											color: 'black',
-											marginRight: '1rem'
-										}}
-									/>
-								</Link>
-							</h4>
-							{showContactInfo ? (
-								<ul className="list-group">
-									<li className="list-group-item">Email: {email}</li>
-									<li className="list-group-item">Phone:{phone}</li>
-								</ul>
-							) : null}
-						</div>
-					);
-				}}
-			</Consumer>
-		);
-	}
+    return (
+      <Consumer>
+        {value => {
+          const { dispatch } = value;
+          return (
+            <div className="card card-body mb-3">
+              <h4>
+                {name}{' '}
+                <i
+                  onClick={() =>
+                    this.setState({
+                      showContactInfo: !this.state.showContactInfo
+                    })
+                  }
+                  className="fas fa-sort-down"
+                  style={{ cursor: 'pointer' }}
+                />
+                <i
+                  className="fas fa-times"
+                  style={{ cursor: 'pointer', float: 'right', color: 'red' }}
+                  onClick={this.onDeleteClick.bind(this, id, dispatch)}
+                />
+                <Link to={`contact/edit/${id}`}>
+                  <i
+                    className="fas fa-pencil-alt"
+                    style={{
+                      cursor: 'pointer',
+                      float: 'right',
+                      color: 'black',
+                      marginRight: '1rem'
+                    }}
+                  />
+                </Link>
+              </h4>
+              {showContactInfo ? (
+                <ul className="list-group">
+                  <li className="list-group-item">Email: {email}</li>
+                  <li className="list-group-item">Phone: {phone}</li>
+                </ul>
+              ) : null}
+            </div>
+          );
+        }}
+      </Consumer>
+    );
+  }
 }
 
-Contact.PropTypes = {
-	contact: PropTypes.object.isRequired
+Contact.propTypes = {
+  contact: PropTypes.object.isRequired
 };
+
 export default Contact;
